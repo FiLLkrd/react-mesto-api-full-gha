@@ -128,10 +128,9 @@ function App() {
       });
   }
 
-  function handleAddCard({ title, link }) {
-    console.log(title, link);
+  function handleAddCard(card) {
     apiRequest
-      .addNewCard({ title, link })
+      .addNewCard({ item: card })
       .then((res) => {
         setCards((cards) => [res, ...cards]);
         closePopup();

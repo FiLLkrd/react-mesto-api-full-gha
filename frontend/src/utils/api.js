@@ -48,19 +48,20 @@ class API {
     return this._checkError(res);
   }
 
-  async addNewCard(name, link) {
+  addNewCard({ item }) {
     const token = localStorage.getItem('jwt');
-    const res = await fetch(`${this._baseUrl}/cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: {
+        "content-type": "application/json",
         authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
-        name: name,
-        link: link,
-      }),
-    });
-    return this._checkError(res);
+        name: item.title,
+        link: item.link,
+}),
+    })
+    .then (this._checkError);
   }
 
   async deleteCard(id) {
@@ -68,6 +69,7 @@ class API {
     const res = await fetch(`${this._baseUrl}/cards/${id}`, {
       method: "DELETE",
       headers: {
+        "content-type": "application/json",
         authorization: `Bearer ${token}`
       },
     });
@@ -79,6 +81,7 @@ class API {
     const res = await fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: {
+        "content-type": "application/json",
         authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
@@ -94,6 +97,7 @@ class API {
       const res = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: "PUT",
         headers: {
+          "content-type": "application/json",
           authorization: `Bearer ${token}`
         },
       });
@@ -102,6 +106,7 @@ class API {
       const res_2 = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: "DELETE",
         headers: {
+          "content-type": "application/json",
           authorization: `Bearer ${token}`
         },
       });

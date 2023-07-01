@@ -62,11 +62,10 @@ const updateUser = (req, res, next) => {
 };
 
 const updateAvatar = (req, res, next) => {
-  const { avatar } = req.body;
   User
     .findByIdAndUpdate(
       req.user._id,
-      { avatar },
+      req.body,
       {
         new: true,
         runValidators: true,
@@ -134,9 +133,7 @@ const createUser = (req, res, next) => {
       })
       .then(() => res.status(CREATED).send(
         {
-          data: {
-            name, about, avatar, email,
-          },
+          name, about, avatar, email,
         },
       ))
       // eslint-disable-next-line consistent-return
