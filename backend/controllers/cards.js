@@ -8,7 +8,6 @@ const {
   OK,
   CREATED,
 } = require('../utils/errors');
-const { populate } = require('../models/users');
 
 const getCards = (req, res, next) => {
   Card
