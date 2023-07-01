@@ -88,7 +88,7 @@ class API {
 }
 
 const apiRequest = new API({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-56",
+  baseUrl: "http://api.fillrkd.nomoreparties.sbs",
   headers: {
     authorization: "5dc5c8be-be79-400a-b4fa-a8894eb1d6c6",
     "Content-type": "application/json",
