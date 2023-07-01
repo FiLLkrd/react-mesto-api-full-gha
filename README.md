@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.74.125
+IP 158.160.74.125
 
 Frontend https://fillkrd.nomoredomains.work
 
