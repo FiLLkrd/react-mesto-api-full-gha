@@ -9,8 +9,8 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 158.160.74.125
 
-Frontend https://...
+Frontend https://fillkrd.nomoredomains.work
 
-Backend https://...
+Backend https://api.fillrkd.nomoreparties.sbs
