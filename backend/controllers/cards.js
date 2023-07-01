@@ -8,6 +8,7 @@ const {
   OK,
   CREATED,
 } = require('../utils/errors');
+const { populate } = require('../models/users');
 
 const getCards = (req, res, next) => {
   Card
@@ -17,9 +18,9 @@ const getCards = (req, res, next) => {
 };
 
 const createCard = (req, res, next) => {
-  const { name, link } = req.body;
+  const { link, name } = req.body;
   Card
-    .create({ name, link, owner: req.user._id })
+    .create({ link, name, owner: req.user._id })
     .then((card) => res.status(CREATED).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -35,6 +36,7 @@ const removeCard = (req, res, next) => {
     .orFail(() => {
       throw new ErrNotFound('Карточка с данным id не найдена');
     })
+    .populate('likes', 'owner')
     .then((card) => {
       const owner = card.owner.toString();
       if (req.user._id === owner) {
@@ -62,11 +64,12 @@ const addCardLike = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .populate('likes', 'owner')
     .then((card) => {
       if (!card) {
         throw new ErrNotFound('Карточка с данным id не найдена');
       }
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -83,11 +86,12 @@ const removeCardLike = (req, res, next) => {
       { $pull: { likes: req.user._id } },
       { new: true },
     )
+    .populate('likes', 'owner')
     .then((card) => {
       if (!card) {
         throw new ErrNotFound('Карточка с данным id не найдена');
       }
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

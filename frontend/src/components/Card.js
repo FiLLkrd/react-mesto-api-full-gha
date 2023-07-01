@@ -4,8 +4,8 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 export default function Card(props) {
   const { name, link, likes } = props;
   const currentUser = useContext(CurrentUserContext);
-  const isOwn = props.card.owner._id === currentUser._id;
-  const liked = props.card.likes.some((item) => item._id === currentUser._id);
+  const isOwn = props.card.owner === currentUser._id;
+  const liked = props.card.likes.some(id => id === currentUser._id);
 
   const cardLikeAddActiveClass = `card__like ${liked && "card__like_active"}`;
 

@@ -1,4 +1,4 @@
-const BASE_URL = "http://api.fillrkd.nomoreparties.sbs/users";
+const BASE_URL = "https://api.fillrkd.nomoreparties.sbs";
 
 const checkError = (res) => {
     if (res.ok) {
@@ -19,19 +19,24 @@ export const signUp = async (data) => {
     return checkError(res);
 }
 
-export const signIn = async (data) => {
-    const res = await fetch(`${BASE_URL}/signin`, {
-        method: "POST",
+export const signIn = (data) => {
+    return fetch(`${BASE_URL}/signin`, {
+        method: 'POST',
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-    });
-    return checkError(res);
+    })
+    .then(checkError)
+    .then((data) => {
+        localStorage.setItem('jwt', data.token);
+        return data;
+    })
 };
 
-export const checkAuthData = async(token) => {
+export const checkAuthData = async() => {
+    const token = localStorage.getItem('jwt');
     const res = await fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {

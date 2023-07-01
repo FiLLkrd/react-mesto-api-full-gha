@@ -90,7 +90,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const liked = card.likes.some((user) => user._id === currentUser._id);
+    const liked = card.likes.some((id) => id === currentUser._id);
     apiRequest
       .changeLikeCard(card._id, !liked)
       .then((newCard) => {
@@ -182,7 +182,7 @@ useEffect(() =>{
       checkAuthData(jwt)
       .then((res) => {
           setIsLoggedIn(true);
-          setUserEmail(res.data.email);
+          setUserEmail(res.email);
           navigate('/')
       })
       .catch((err) => console.log(err))

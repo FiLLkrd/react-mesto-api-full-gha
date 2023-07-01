@@ -1,7 +1,6 @@
 class API {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl }) {
     this._baseUrl = baseUrl;
-    this._headers = headers;
   }
 
   _checkError(res) {
@@ -12,25 +11,35 @@ class API {
   }
 
   async getUserInfo() {
+    const token = localStorage.getItem('jwt');
     const res = await fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`
+      }
     });
     return this._checkError(res);
   }
 
   async getCards() {
+    const token = localStorage.getItem('jwt');
     const res = await fetch(`${this._baseUrl}/cards`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`
+      }
     });
     return this._checkError(res);
   }
 
   async editProfile(data) {
+    const token = localStorage.getItem('jwt');
     const res = await fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -39,30 +48,39 @@ class API {
     return this._checkError(res);
   }
 
-  async addNewCard(data) {
+  async addNewCard(name, link) {
+    const token = localStorage.getItem('jwt');
     const res = await fetch(`${this._baseUrl}/cards`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
-        name: data.title,
-        link: data.link,
+        name: name,
+        link: link,
       }),
     });
     return this._checkError(res);
   }
 
   async deleteCard(id) {
+    const token = localStorage.getItem('jwt');
     const res = await fetch(`${this._baseUrl}/cards/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`
+      },
     });
     return this._checkError(res);
   }
 
   async editAvatar(link) {
+    const token = localStorage.getItem('jwt');
     const res = await fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         avatar: link,
       }),
@@ -71,16 +89,21 @@ class API {
   }
 
   async changeLikeCard(cardId, liked) {
+    const token = localStorage.getItem('jwt');
     if (liked) {
       const res = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: "PUT",
-        headers: this._headers,
+        headers: {
+          authorization: `Bearer ${token}`
+        },
       });
       return this._checkError(res);
     } else {
       const res_2 = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: "DELETE",
-        headers: this._headers,
+        headers: {
+          authorization: `Bearer ${token}`
+        },
       });
       return this._checkError(res_2);
     }
@@ -88,11 +111,7 @@ class API {
 }
 
 const apiRequest = new API({
-  baseUrl: "http://api.fillrkd.nomoreparties.sbs",
-  headers: {
-    authorization: "5dc5c8be-be79-400a-b4fa-a8894eb1d6c6",
-    "Content-type": "application/json",
-  },
+  baseUrl: "https://api.fillrkd.nomoreparties.sbs",
 });
 
 export default apiRequest;
